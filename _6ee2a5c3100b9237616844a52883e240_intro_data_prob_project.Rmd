@@ -41,7 +41,7 @@ Does the level of schooling completed positively affect the ability to generate 
 Does income amount affect the average number of days of depression felt over the course of a month? 
 
 **Research quesion 3:**
-Is the average height of basketball players greater than that of baseball/ softball?
+Is the average height of basketball players greater than that of baseball/ softball and soccer?
 
 * * *
 
@@ -58,9 +58,16 @@ Q1 <- brfss2013 %>% group_by(educa) %>% summarise( income2 > 75000) %>% count()
 
 Q1 <- Q1[-7,]
 
-ggplot(Q1, aes(x = educa , y = n, fill= educa )) + geom_col(na.rm = T) + scale_x_discrete(label=function(x) abbreviate(x, minlength=1)) + theme_dark() + xlab( "Education") + ylab(" # of people above $75K") 
+ggplot(Q1, aes(x = educa , y = n, fill= educa )) + geom_col() + scale_x_discrete(label=function(x) abbreviate(x, minlength=1)) + theme_dark() + xlab( "Education") + ylab(" # of people above $75K") 
 
 ```
+
+
+
+**Explanation  1:**
+
+The data shows that the greater amount of time within the school system there is a greater ability to earn above the metric of $75k per year. The interesting thing to notice is there being a dip within the 1-3 year mark of college, given the fact that that some of the surveyed population would be in school learning their vocation in order to improve earning potential. In contrast, high school graduates could potentially have more time within their career which would allow them to make more money. 
+  
 
 
 
@@ -76,14 +83,23 @@ ggplot(Q2, aes(income2, qlmentl2, fill = income2)) + geom_col() + theme_dark() +
 
 
 
+**Explanation  2:**
+  Does money buy happiness, according the data to an extent. There is a drastic drop in the average number of day depression felt over the course of the month ones the $30K threshold is surpassed. This could potentially be attuned to the lesser need to worry about attaining good that are needed for survival and having some amount of expendable income. 
+
+
 **Research quesion 3:**
 
 ```{r}
-Q3 <- brfss2013 %>% summarise(., exract11, htin4) %>% group_by(exract11) %>% filter(., exract11 %in% c("Basketball", "Softball/Baseball"))
+Q3 <- brfss2013 %>% summarise(., exract11, htin4) %>% group_by(exract11) %>% filter(., exract11 %in% c("Basketball", "Softball/Baseball", "Soccer"))
 
 ggplot(Q3, aes(x = exract11, y = htin4, fill = exract11)) + geom_boxplot() + theme_dark() + xlab( "Sport ") + ylab(" Height ") 
 
 
 
 ```
+
+
+
+**Explanation  3:**
+  Is there a difference in the average height of athletes pertaining  to the sports of basketball, softball/baseball, and soccer? Yes, there is. Given the individual needs for longer limbs or taller heights to gain an advantage over one's opponent taller people would be favored in the sport of basketball. Basketball and softball favor long limb in order to create power throwing the ball. Soccer favors maneverabily therefore smaller, more agile indivduals may have the advantage   
 
