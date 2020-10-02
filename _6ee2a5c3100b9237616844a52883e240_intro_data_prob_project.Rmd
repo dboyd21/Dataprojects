@@ -1,0 +1,89 @@
+---
+title: "Exploring the BRFSS data"
+output: 
+  html_document: 
+    fig_height: 4
+    highlight: pygments
+    theme: spacelab
+---
+
+## Setup
+
+### Load packages
+
+```{r load-packages, message = FALSE}
+library(ggplot2)
+library(dplyr)
+library(RColorBrewer)
+library(tidyr)
+```
+
+### Load data
+
+```{r load-data}
+load("~/Data Science Project 1/4tiY2fqCQa-YmNn6gnGvzQ_1e7320c30a6f4b27894a54e2de50a805_brfss2013.RData")
+```
+
+* * *
+
+## Part 1: Data
+
+The data within this file is a broad spectrum of data that is pulled from a random convenience sample of person's over the age of 18. Due to the confounding factors of the population needing to have a cell phone within a private residence or college campus, there is a risk of a portion of the youth population not being represented within this study. The measures of the data allow for a generalizable conclusion to be provided, however, due to the fact random sampling wasn't imparted causation isn't possible. 
+
+* * *
+
+## Part 2: Research questions
+
+**Research quesion 1:**
+Does the level of schooling completed positively affect the ability to generate income above 75k per year?
+
+**Research quesion 2:**
+Does income amount affect the average number of days of depression felt over the course of a month? 
+
+**Research quesion 3:**
+Is the average height of basketball players greater than that of baseball/ softball?
+
+* * *
+
+## Part 3: Exploratory data analysis
+
+NOTE: Insert code chunks as needed by clicking on the "Insert a new code chunk" 
+button (green button with orange arrow) above. Make sure that your code is visible
+in the project you submit. Delete this note when before you submit your work.
+
+**Research quesion 1:**
+
+```{r}
+Q1 <- brfss2013 %>% group_by(educa) %>% summarise( income2 > 75000) %>% count()
+
+Q1 <- Q1[-7,]
+
+ggplot(Q1, aes(x = educa , y = n, fill= educa )) + geom_col(na.rm = T) + scale_x_discrete(label=function(x) abbreviate(x, minlength=1)) + theme_dark() + xlab( "Education") + ylab(" # of people above $75K") 
+
+```
+
+
+
+**Research quesion 2:**
+
+```{r}
+Q2 <- brfss2013 %>% group_by(., income2) %>% summarise_at(., vars(qlmentl2), list(mean), na.rm = T)
+
+Q2 <- Q2[-9,]
+
+ggplot(Q2, aes(income2, qlmentl2, fill = income2)) + geom_col() + theme_dark() +  xlab( "Income") + ylab("  Average Number of Days Depressed Per Month ") + scale_x_discrete(label=function(x) abbreviate(x, minlength=1))
+```
+
+
+
+**Research quesion 3:**
+
+```{r}
+Q3 <- brfss2013 %>% summarise(., exract11, htin4) %>% group_by(exract11) %>% filter(., exract11 %in% c("Basketball", "Softball/Baseball"))
+
+ggplot(Q3, aes(x = exract11, y = htin4, fill = exract11)) + geom_boxplot() + theme_dark() + xlab( "Sport ") + ylab(" Height ") 
+
+
+
+```
+
